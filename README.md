@@ -19,12 +19,25 @@ Projeto prático da Aula 8 para converter e comparar a MobileNetV2 original com 
 
 ## Executar com Docker
 
+No Raspberry Pi 5, use um sistema operacional de 64 bits. O comando
+`uname -m` deve retornar `aarch64`.
+
 Na raiz do projeto:
 
 ```bash
-docker build -t edgeai_lab .
+docker build --pull -t edgeai_lab .
 docker run --rm -it -v "$(pwd):/app" edgeai_lab
 ```
+
+Para confirmar a arquitetura e a versão do TensorFlow instaladas:
+
+```bash
+docker run --rm edgeai_lab python -c \
+  'import platform, tensorflow as tf; print(platform.machine(), tf.__version__)'
+```
+
+No Raspberry Pi 5, o resultado esperado começa com `aarch64 2.13.0`. A imagem
+usa CPU; este projeto não configura aceleração por GPU, Hailo ou Coral.
 
 Dentro do contêiner, gere os modelos:
 
